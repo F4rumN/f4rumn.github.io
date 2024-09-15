@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waifu Gacha</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container-fluid bg-dark" style="min-height: 100vh;" id="app">
+    <h2 class="text-white fw-bold">Waifu Gacha</h2>
+    <p class="fs-6 text-white">(kecepatan load gambar tergantung jaringan)</p>
+    <div class="row mb-2">
+      <div class="col-12">
+        <label for="select-api" class="text-white form-label">Data API From :</label>
+        <select v-model="api" class="form-select" @change="getCategory" id="select-api">
+          <option value="0">waifu.im</option>
+          <option value="1">nekos.best</option>
+          <option value="2">waifu.pics</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-6">
+        <label for="select-category" class="text-white form-label">Category :</label>
+        <select v-model="api_category" class="form-select" @change="getTags()">
+          <option v-for="category in categories" :value="category">{{category}}</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <label for="select-tags" class="text-white form-label">Tag/Type :</label>
+        <select v-model="api_type" class="form-select">
+          <option v-for="tag in tags" :value="tag">{{tag}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <button class="btn btn-success text-white fw-bold" type="button" @click="generateImage" :disabled="on_search || no_data_selected">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" :hidden="!on_search"></span>
+          GACHA!!
+        </button>
+      </div>
+    </div>
+    <div class="row" v-show="img_loaded && !on_search">
+      <div class="col-12 text-center">
+       <p class="text-white fw-bold">Image Link: <a :href="api_img" target="_blank">{{api_img}}</a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <img :src="api_img" style="max-width: 100%;margin-bottom: 2rem;" @load="loadImage">
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
